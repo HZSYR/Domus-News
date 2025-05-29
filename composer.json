@@ -1,20 +1,17 @@
 {
-    "name": "laravel/laravel",
+    "name": "hzsyr/laravel-11-news",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Laravel 11 News Application",
+    "keywords": ["laravel", "framework", "news"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "fakerphp/faker": "^1.23",
-        "intervention/image": "^2.7",
-        "laravel/framework": "^11.9",
-        "laravel/socialite": "^5.20",
-        "laravel/tinker": "^2.7",
-        "spatie/laravel-permission": "^6.9"
+        "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.9"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.13",
+        "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
@@ -42,12 +39,19 @@
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php artisan key:generate --ansi",
+            "@php artisan storage:link --ansi"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
-            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
+            "@php artisan storage:link --ansi"
+        ],
+        "post-install-cmd": [
+            "@php artisan clear-compiled",
+            "@php artisan optimize",
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan view:cache"
         ]
     },
     "extra": {
